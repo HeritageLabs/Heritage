@@ -1,17 +1,11 @@
 import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 
-const SelectedTokens = () => {
-    const tokensData = [
-        {
-          symbol: "AVL",
-          token: "my token",
-        },
-      ];
+const SelectedTokens = ({tokens}) => {
     return (
         <Box bg="#F9F9F9" w="100%" m="23px auto" p="20px 30px" borderRadius="10px">
-        {tokensData.length ? (
+        {tokens.length ? (
           <SimpleGrid columns="2" spacing="5">
-            {tokensData.map((token, index) => (
+            {tokens.map((token, index) => (
               <Box
                 w="230px"
                 boxShadow="rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px"
@@ -45,7 +39,7 @@ const SelectedTokens = () => {
             ))}
           </SimpleGrid>
         ) : (
-          <Text color="brand.primary">You do not have any token</Text>
+          <Text color="brand.primary">You have not selected any token</Text>
         )}
       </Box>
     )

@@ -11,7 +11,7 @@ import {
   isDisconnected,
   addTokens,
 } from "../utils/helpers.js";
-import { legacyAddress } from "../utils/contract";
+import { heritageAddress } from "../utils/contract";
 import AlreadySelectedTokens from "../templates/prevSelectedTokens";
 import TokenModal from "../modal/modal";
 import HeadTag from "../common/headTag";
@@ -40,7 +40,7 @@ const SelectTokens = () => {
     console.log("fetching tokens...");
     try {
       const url = new URL(
-        `https://deep-index.moralis.io/api/v2/${user}/erc20?chain=avalanche%20testnet`
+        `https://deep-index.moralis.io/api/v2/${user}/erc20?chain=mumbai`
       );
 
       const res = await fetch(url, {
@@ -67,7 +67,7 @@ const SelectTokens = () => {
 
     const erc20Abi = ["function approve(address spender, uint256 amount)"];
     const token = new ethers.Contract(tokenAddress, erc20Abi, signer);
-    const tx = await token.approve(legacyAddress, ethers.constants.MaxUint256);
+    const tx = await token.approve(heritageAddress, ethers.constants.MaxUint256);
   };
 
   const handleProceed = async () => {
@@ -238,6 +238,7 @@ const SelectTokens = () => {
         onClose={onClose}
         header="Confirm Selected Tokens"
         handleProceed={handleProceed}
+        tokens={selectedTokens}
       />
     </Box>
   );

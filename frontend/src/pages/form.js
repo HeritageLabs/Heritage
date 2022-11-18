@@ -1,16 +1,15 @@
 import { Box, SimpleGrid, Text } from "@chakra-ui/react";
 import CustomButton from "../common/CustomButton";
 import TextInput from "../common/TextInput";
-import { ethers } from "ethers";
 import { useState } from "react";
 import { toaster } from "evergreen-ui";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../navbar/navbar";
-import { createLegacy } from "../utils/helpers.js";
+import { createHeritage } from "../utils/helpers.js";
 
 const Form = () => {
   let navigate = useNavigate();
-  const [legatee, setLagatee] = useState("");
+  const [heir, setHeir] = useState("");
   const [checkInterval, setCheckInterval] = useState();
   const [createLoading, setCreateLoading] = useState(false);
   const [userName, setUserName] = useState("");
@@ -21,8 +20,8 @@ const Form = () => {
     e.preventDefault();
     setCreateLoading(true);
     try {
-      const res = await createLegacy(legatee, checkInterval * 3600 * 24);
-      const userDetails = { userName, userNextOfKin, checkInterval, legatee };
+      const res = await createHeritage(heir, checkInterval * 3600 * 24);
+      const userDetails = { userName, userNextOfKin, checkInterval, heir };
       console.log(userDetails);
       localStorage.setItem("userDetails", userDetails);
       setCreateLoading(false);
@@ -36,7 +35,7 @@ const Form = () => {
   };
 
   const handleLegateeChange = (event) => {
-    setLagatee(event.target.value);
+    setHeir(event.target.value);
   };
 
   const handleCheckIntervalChange = (event) => {
@@ -98,7 +97,7 @@ const Form = () => {
               type="text"
               color="brand.white"
               onChange={handleLegateeChange}
-              defaultValue={getUserDetails && getUserDetails.legatee}
+              defaultValue={getUserDetails && getUserDetails.heir}
               bg="none"
             />
             <TextInput
@@ -122,7 +121,7 @@ const Form = () => {
             isLoading={createLoading}
             onClick={create}
             border="1px solid #15F4CB"
-            disabled={!userName || !userNextOfKin || !legatee || !checkInterval}
+            disabled={!userName || !userNextOfKin || !heir || !checkInterval}
           >
             Secure Now
           </CustomButton>

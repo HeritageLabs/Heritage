@@ -19,6 +19,7 @@
     "typescript": "^4.9.3"
   },
   "dependencies": {
-    "@chainlink/contracts": "^0.5.1"
+    "@chainlink/contracts": "^0.5.1",
+    "dotenv": "^16.0.3"
   }
 }

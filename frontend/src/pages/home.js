@@ -15,7 +15,7 @@ import bitcoin from "../assets/icons/bitcoin.webp";
 import {connect as connectWallet,
     checkConnection,
     isDisconnected,
-    hasLegacy} from "../utils/helpers.js"
+    hasHeritage} from "../utils/helpers.js"
 import HeadTag from '../common/headTag';
 
 const Home = () => {
@@ -37,7 +37,7 @@ const Home = () => {
         if (isDisconnected()) {
             await connectWallet()
         }
-        if (await hasLegacy(user)) {
+        if (await hasHeritage(user)) {
             navigate('/profile');
         } else {
             navigate('/get-started')

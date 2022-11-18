@@ -1,13 +1,34 @@
-# Sample Hardhat Project
+# Heritage smart contract
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+Smart contract for Heritage
+View contract on [polygonscan](https://mumbai.polygonscan.com/address/0xB16b23091F306d923c2F63bdC7Be1086b92D5903#code)
 
-Try running some of the following tasks:
+## Install dependencies
 
-```shell
-npx hardhat help
-npx hardhat test
-GAS_REPORT=true npx hardhat test
-npx hardhat node
+```bash
+npm install
+```
+
+## Compile
+
+```bash
+npx hardhat compile
+```
+
+## Deploy
+
+```bash
 npx hardhat run scripts/deploy.js
+```
+
+## Deploy to mumbai testnet
+
+```bash
+npx hardhat run scripts/deploy.js --network mumbai
+```
+
+## Verify contract
+
+```bash
+npx hardhat verify [CONTRACT ADDRESS]
 ```

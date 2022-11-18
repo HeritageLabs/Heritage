@@ -1,9 +1,16 @@
-export const legacyAddress = "0xb6276F6892873d4577E1524f7EB195b118D11334"
+export const heritageAddress = "0xB16b23091F306d923c2F63bdC7Be1086b92D5903"
 
-export const legacyAbi = [
-    "function legacies(uint256) view returns (address, address, uint256, uint256, bool)",
-    "function legacyIndexes(address owner) view returns(uint256)",
-    "function create(address _legatee, uint256 _checkInterval)",
-    "function addTokens(address[] memory _tokens)",
-    "function checkIn()"
+export const heritageAbi = [
+    "function checkUpKeep(bytes) view returns(bool, bytes)",
+    "function getHeritage(address) view returns(tuple(address, address, address[], uint256, uint256, bool))",
+    "function getHeritageTokens(address) view returns(address[])",
+    "function hasHeritage(address) view returns(bool)",
+    "function create(address, uint256)",
+    "function addTokens(address[] _tokens)",
+    "function checkIn()",
+    "function cancel()",
+    "function performUpKeep(bytes)",
+    "function update(address, uint256)",
+    "function updateCheckInterval(uint)",
+    "function updateHeir(address)"
 ]

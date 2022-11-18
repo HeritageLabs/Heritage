@@ -1,53 +1,45 @@
 /* eslint-disable no-implied-eval */
 import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 import CustomButton from "../common/CustomButton";
-import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { Spinner, toaster } from "evergreen-ui";
 import TextInput from "../common/TextInput";
 import { useNavigate } from "react-router-dom";
-import getUserInterval from "../utils/helpers";
+import getUserInterval, { checkIn } from "../utils/helpers";
 import Navbar from "../navbar/navbar";
 import {
   checkConnection,
   isDisconnected,
   addTokens,
 } from "../utils/helpers.js";
-import { legacyAddress, legacyAbi } from "../utils/contract";
 import { editIcon, loadingWhite } from "../utils/svg";
 
 const CheckInterval = () => {
   const navigate = useNavigate();
-  const [legatee, setLegatee] = useState();
+  const [heir, setHeir] = useState();
   const [interval, setInterval] = useState();
   const [lastSeen, setLastSeen] = useState();
   const [checkInLoading, setCheckInLoading] = useState(false);
   // const [loadingProfile, setLoadingProfile] = useState(true);
 
-  const getLegacy = async () => {
+  const getHeritage = async () => {
     console.log(await checkConnection());
-    const legacy = await getUserInterval(await checkConnection());
-    console.log(legacy);
-    setInterval(legacy.interval);
-    setLastSeen(legacy.lastSeen);
-    setLegatee(legacy.legatee);
+    const heritage = await getUserInterval(await checkConnection());
+    console.log(heritage);
+    setInterval(heritage.interval);
+    setLastSeen(heritage.lastSeen);
+    setHeir(heritage.heir);
   };
 
   useEffect(() => {
-    getLegacy();
+    getHeritage();
   }, []);
 
-  const checkIn = async (e) => {
+  const checkInNow = async (e) => {
     e.preventDefault();
     setCheckInLoading(true);
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
-      //TODO
-      //Display loader
-      const tx = await legacy.checkIn();
-      await tx.wait;
+      await checkIn();
       setCheckInLoading(false);
     } catch (error) {
       toaster.danger("An error occured!");
@@ -80,7 +72,7 @@ const CheckInterval = () => {
               Your Profile
             </Text>
             <Text color="brand.teal" fontSize="14px">
-              You are viewing this page because you have created a legacy
+              You are viewing this page because you have created a heritage
               account with us.
             </Text>
           </Box>
@@ -106,7 +98,7 @@ const CheckInterval = () => {
           </Box>
         </Box>
         <Box h="1px" bgColor="brand.grey"></Box>
-        {legatee ? (
+        {heir ? (
           <>
             <Box mt="20px">
                 <Flex
@@ -136,7 +128,7 @@ const CheckInterval = () => {
                   color="brand.white"
                   bg="none"
                   label="Next of kin Wallet"
-                  value={legatee}
+                  value={heir}
                   borderColor="brand.grey"
                   isReadonly
                 />
@@ -169,7 +161,7 @@ const CheckInterval = () => {
                 hoverColor="brand.teal"
                 color="brand.white"
                 isLoading={checkInLoading}
-                onClick={checkIn}
+                onClick={checkInNow}
               >
                 Check In
               </CustomButton>

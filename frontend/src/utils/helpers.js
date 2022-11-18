@@ -2,16 +2,16 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import {ethers} from "ethers";
 import { toaster } from "evergreen-ui";
-import { legacyAddress, legacyAbi } from "./contract";
+import { heritageAddress, heritageAbi } from "./contract";
 
 export async function addTokens(tokens) {
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
-  const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
+  const heritage = new ethers.Contract(heritageAddress, heritageAbi, signer);
   try {
     console.log(tokens);
-    // Add tokens to Legacy
-    const tx = await legacy.addTokens(tokens);
+    // Add tokens to Heritage
+    const tx = await heritage.addTokens(tokens);
     // await tx.wait();
     return true
   } catch (error) {
@@ -21,30 +21,38 @@ export async function addTokens(tokens) {
   }
 }
 
-export async function createLegacy(legatee, checkInterval) {
+export async function createHeritage(heir, checkInterval) {
   try{
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
-    const tx = await legacy.create(legatee, checkInterval);
-    // await tx.wait();
+    const heritage = new ethers.Contract(heritageAddress, heritageAbi, signer);
+    const tx = await heritage.create(heir, checkInterval);
+    await tx.wait;
     return true;
   } catch (err) {
     console.log(err)
-    toaster.danger('Could not create legacy');
+    toaster.danger('Could not create heritage');
     return false
   }
 }
 
-export const hasLegacy = async(address) => {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const legacy = new ethers.Contract(legacyAddress, legacyAbi, provider);
-  const legacyIndex = Number(await legacy.legacyIndexes(address));
-  if (legacyIndex == 0) {
-    return false;
-  } else {
-    return true;
+export async function checkIn() {
+  try{
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const heritage = new ethers.Contract(heritageAddress, heritageAbi, signer);
+    const tx = await heritage.checkIn();
+    // await tx.wait();
+  } catch (err) {
+    console.log(err)
+    toaster.danger('An error occured!');
   }
+}
+
+export const hasHeritage = async(address) => {
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const heritage = new ethers.Contract(heritageAddress, heritageAbi, provider);
+  return (await heritage.hasHeritage(address));
 }
 
 export async function connect() {
@@ -53,7 +61,7 @@ export async function connect() {
       // check if the chain to connect to is installed
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0xA869' }], // chainId must be in hexadecimal numbers
+        params: [{ chainId: '0x13881' }], // chainId must be in hexadecimal numbers
       });
     } catch (error) {
       // This error code indicates that the chain has not been added to MetaMask
@@ -64,15 +72,15 @@ export async function connect() {
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: '0xA869',
-                chainName: 'Avalanche Fuji testnet',
+                chainId: '0x13881',
+                chainName: 'Polygon testnet',
                 nativeCurrency: {
-                  name: 'Avalanche Token',
-                  symbol: 'AVAX', // 2-6 characters long
+                  name: 'Polygon token',
+                  symbol: 'MATIC', // 2-6 characters long
                   decimals: 18
                 },
-                blockExplorerUrls: ['https://testnet.snowtrace.io'],
-                rpcUrls: ['https://api.avax-test.network/ext/bc/C/rpc'],
+                blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+                rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
               },
             ],
           });
@@ -83,11 +91,11 @@ export async function connect() {
         }
       } else {
         console.log(error);
-        toaster.danger('failed to switch network to AVAX Fuji testnet')
+        toaster.danger('failed to switch network to Polygon mumbai testnet')
         return;
       }
     }
-      if(window.confirm("Are you sure you want to connect your wallet. This would let Legacy see your wallet address and account balance")) {
+      if(window.confirm("Are you sure you want to connect your wallet. This would let Heritage see your wallet address and account balance")) {
         const accounts = await window.ethereum
           .request({ method: 'eth_requestAccounts' })
           localStorage.removeItem('isDisconnected')
@@ -118,26 +126,25 @@ export async function checkConnection() {
   }
 }
 
-const getUserInterval = async(getUser, setLegatee, setLastSeen, setInterval) => {
+const getUserInterval = async() => {
         try {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const signer = provider.getSigner();
-          const legacy = new ethers.Contract(legacyAddress, legacyAbi, signer);
-          console.log(legacy);
+          const heritage = new ethers.Contract(heritageAddress, heritageAbi, signer);
+          const userAddress = await signer.getAddress();
           //TODO
           //Display loader
-          const index = await legacy.legacyIndexes(await checkConnection());
-            const res = await legacy.legacies(Number(index))
-              console.log(res)
-              const legatee = res[0];
+            const res = await heritage.getHeritage(userAddress);
+            console.log(res);
+              const heir = res[0];
               //Convert lastSeen to minutes (just for the sake of demo)
-              let ls = Math.floor( ((Number(new Date()) / 1000) - Number(res[2])) / (3600 * 24) );
+              let ls = Math.floor( ((Number(new Date()) / 1000) - Number(res[3])) / (3600 * 24) );
               const lastSeen = ls == 0 ? "Today" : `${ls} days ago`;
               //Convert checkInterval to seconds (just for the sake of demo)
-              const secs = Number(res[3]);
+              const secs = Number(res[4]);
               const intervalMins = Math.floor(secs / (3600 * 24));
               const interval = `Every ${intervalMins} days`;
-              return {legatee, lastSeen, interval};
+              return {heir, lastSeen, interval};
         } catch (error) {
           toaster.danger('An error occured!')
           return;
