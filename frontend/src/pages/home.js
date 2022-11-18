@@ -35,9 +35,11 @@ const Home = () => {
         setGetStartedLoading(true);
 
         if (isDisconnected()) {
-            await connectWallet()
+            await connectWallet();
+            const account = await checkConnection();
+            setUser(account);
         }
-        if (await hasHeritage(user)) {
+        if (await hasHeritage(account)) {
             navigate('/profile');
         } else {
             navigate('/get-started')

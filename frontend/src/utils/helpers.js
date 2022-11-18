@@ -73,9 +73,9 @@ export async function connect() {
             params: [
               {
                 chainId: '0x13881',
-                chainName: 'Polygon testnet',
+                chainName: 'Mumbai',
                 nativeCurrency: {
-                  name: 'Polygon token',
+                  name: 'MATIC',
                   symbol: 'MATIC', // 2-6 characters long
                   decimals: 18
                 },
