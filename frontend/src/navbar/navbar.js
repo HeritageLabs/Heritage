@@ -1,11 +1,9 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { ethers } from "ethers";
 import { Link } from "react-router-dom";
 import logo from "../../src/assets/icons/logo.svg";
 import { close, hamburger } from "../assets/svgs/svg";
 import CustomButton from "../common/CustomButton";
-import { toaster } from "evergreen-ui";
 import { useNavigate } from "react-router-dom";
 import {connect as connectWallet,
   checkConnection,
@@ -76,24 +74,28 @@ const Navbar = () => {
               {openNavBar ? close : hamburger}
             </Box>
           </Flex>
-          <Text
-            cursor="pointer"
-            ml={{ base: "0", lg: "100px" }}
-            mt={{ base: "20px", lg: "0" }}
-            _hover={{ color: "brand.teal" }}
-            color="brand.white"
-          >
-            About us
-          </Text>
-          <Text
-            cursor="pointer"
-            mt={{ base: "20px", lg: "0" }}
-            ml={{ base: "0", lg: "100px" }}
-            _hover={{ color: "brand.teal" }}
-            color="brand.white"
-          >
-            How it works
-          </Text>
+          <a href="/#about-us">
+            <Text
+              cursor="pointer"
+              ml={{ base: "0", lg: "100px" }}
+              mt={{ base: "20px", lg: "0" }}
+              _hover={{ color: "brand.teal" }}
+              color="brand.white"
+            >
+              About us
+            </Text>
+          </a>
+          <a href="/#how-it-works">
+            <Text
+              cursor="pointer"
+              mt={{ base: "20px", lg: "0" }}
+              ml={{ base: "0", lg: "100px" }}
+              _hover={{ color: "brand.teal" }}
+              color="brand.white"
+            >
+              How it works
+            </Text>
+          </a>
         </Flex>
         { isConnected ?
             <CustomButton

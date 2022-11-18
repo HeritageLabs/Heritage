@@ -10,7 +10,7 @@ const AboutUs = () => {
     <Box p={{ base: '10px 40px', lg: "30px 80px"}}>
         <HeadTag title="About Us" />
 
-        <Box display={{ base: 'block', lg: "flex"}} alignItems="center">
+        <Box display={{ base: 'block', lg: "flex"}} alignItems="center" id="about-us">
             <Box mt={{ base: '30px', lg: "100px"}} w={{ base: '100%', lg: '50%' }}>
                 <Box fontSize={{ base: '30px', lg: '75px' }} fontWeight="700" color="brand.white" w="80%">
                     <h1>Who we are</h1>
@@ -72,7 +72,7 @@ const AboutUs = () => {
             </SimpleGrid>
         </Box>
 
-        <Box display={{ base: 'block', md: "flex"}} alignItems="center">
+        <Box display={{ base: 'block', md: "flex"}} alignItems="center" id="how-it-works">
             <Box mt={{ base: '50px', lg: "100px"}} w={{ base: '100%', lg: '50%' }}>
                 <Box fontSize={{ base: '30px', lg: '75px' }} fontWeight="700" color="brand.white" w={{base: '100%', lg: "80%"}}>
                     <h1>How it Works</h1>
